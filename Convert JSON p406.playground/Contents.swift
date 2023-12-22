@@ -13,7 +13,24 @@ Task {
    // convert the response body to a string, and print
     let jsonDecoder = JSONDecoder()
     if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200,
-       let photoDictionary = try? jsonDecoder.decode([String: String].self, from: data)  {
-        print(photoDictionary)
+//       let photoDictionary = try? jsonDecoder.decode([String: String].self, from: data)  {
+       let photoInfo = try? jsonDecoder.decode(PhotoInfo.self, from: data) {
+        print(photoInfo)
     }
 }
+
+struct PhotoInfo: Codable {
+    var title: String
+    var description: String
+    var url: URL
+    var copyright: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case description = "explanation"
+        case url
+        case copyright
+    }
+}
+
+
